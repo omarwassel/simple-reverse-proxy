@@ -1,29 +1,49 @@
-apiVersion: extensions/v0beta1
+# apiVersion: apps/v1
+# kind: Deployment
+# metadata:
+#   labels:
+#     service: reverseproxy
+#   name: reverseproxy
+# spec:
+#   replicas: 1
+#   selector:
+#     matchLabels:
+#         app: reverseproxy
+#   template:
+#     metadata:
+#       labels:
+#         service: reverseproxy
+#     spec:
+#       containers:
+#       - image: omara7med/simple-reverse-proxy
+#         name: simple-reverse-proxy
+#         imagePullPolicy: Always          
+#         resources:
+#           requests:
+#             memory: "64Mi"
+#             cpu: "250m"
+#           limits:
+#             memory: "1024Mi"
+#             cpu: "500m"       
+#         ports:
+#         - containerPort: 8080
+#       restartPolicy: Alway
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  labels:
-    service: reverseproxy
-  name: reverseproxy
+ name: reverseproxy-deployment
+ labels:
+   role: reverseproxy
 spec:
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        service: reverseproxy
-    spec:
-      containers:
-      - image: omara7med/simple-reverse-proxy
-        name: reverseproxy
-        imagePullPolicy: Always          
-        resources:
-          requests:
-            memory: "64Mi"
-            cpu: "250m"
-          limits:
-            memory: "1024Mi"
-            cpu: "500m"       
-        ports:
-        - containerPort: 8080
-      restartPolicy: Always
-
-
+ replicas: 1
+ selector:
+   matchLabels:
+     role: reverseproxy
+ template:
+   metadata:
+     labels:
+       role: reverseproxy
+   spec:
+     containers:
+     - name: simple-reverse-proxy
+       image: "simple-reverse-proxy/simple-reverse-proxy"
