@@ -2,21 +2,21 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   labels:
-    service: reverseproxy
-  name: reverseproxy
+    service: udagram-reverse-proxy
+  name: udagram-reverse-proxy
 spec:
   replicas: 1
   selector:
     matchLabels:
-        app: reverseproxy
+      service: udagram-reverse-proxy
   template:
     metadata:
       labels:
-        service: reverseproxy
+        service: udagram-reverse-proxy
     spec:
       containers:
       - image: omara7med/simple-reverse-proxy
-        name: simple-reverse-proxy
+        name: udagram-reverse-proxy
         imagePullPolicy: Always          
         resources:
           requests:
@@ -27,23 +27,4 @@ spec:
             cpu: "500m"       
         ports:
         - containerPort: 8080
-      restartPolicy: Alway
-# apiVersion: apps/v1
-# kind: Deployment
-# metadata:
-#  name: reverseproxy-deployment
-#  labels:
-#    role: reverseproxy
-# spec:
-#  replicas: 1
-#  selector:
-#    matchLabels:
-#      role: reverseproxy
-#  template:
-#    metadata:
-#      labels:
-#        role: reverseproxy
-#    spec:
-#      containers:
-#      - name: simple-reverse-proxy
-#        image: "simple-reverse-proxy/simple-reverse-proxy"
+      restartPolicy: Always
